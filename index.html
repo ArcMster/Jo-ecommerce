@@ -121,28 +121,82 @@ nav.main a:hover{color:var(--ink)}
 .chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 .chip.active-mood{background:var(--marigold);border-color:var(--marigold);color:#26121C}
 .toolbar select{margin-left:auto;border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 14px;font-size:15px}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px 20px;margin-bottom:90px}
-.card{position:relative;display:flex;flex-direction:column}
-.art{border:0;padding:16px 10px 0;border-radius:22px;aspect-ratio:4/5;display:grid;place-items:end center;overflow:hidden;position:relative}
-.art svg{width:76%;transition:transform .5s cubic-bezier(.3,1.4,.5,1);transform-origin:50% 3%}
-.art:hover svg{transform:rotate(-3deg) scale(1.03)}
-.badge{position:absolute;top:12px;left:12px;background:var(--surface);color:var(--ink);font-size:13px;font-weight:500;padding:4px 11px;border-radius:999px}
-.badge.low{background:var(--berry);color:var(--on-berry)}
-.heart{position:absolute;top:8px;right:8px;width:40px;height:40px;border-radius:50%;border:0;background:var(--surface);display:grid;place-items:center}
-.heart svg{width:20px;height:20px;fill:none;stroke:var(--ink);stroke-width:1.8}
-.heart[aria-pressed="true"] svg{fill:var(--berry);stroke:var(--berry)}
-.heart.pop{animation:pop .35s ease}
-@keyframes pop{50%{transform:scale(1.25)}}
-.info{padding:14px 4px 0}
-.info h3{font-size:21px;font-weight:600}
-.info .cat{font-size:14px;color:var(--muted);margin:2px 0 8px}
+.pop{animation:pop .35s ease}
+@keyframes pop{50%{transform:scale(1.12)}}
 .price{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
 .price strong{font-size:18px;font-weight:600}
 .price s{color:var(--muted);font-size:15px}
 .price em{font-style:normal;color:var(--jade);font-weight:600;font-size:15px}
-.sizes{display:flex;gap:5px;margin:10px 0 12px;flex-wrap:wrap}
-.sizes span{font-size:12px;border:1px solid var(--line);border-radius:6px;padding:1px 7px;color:var(--muted)}
-.empty{grid-column:1/-1;text-align:center;padding:50px 20px;color:var(--muted)}
+.empty{grid-column:1/-1;align-self:start;text-align:center;padding:50px 20px;margin:0;color:var(--muted)}
+
+/* moodboard (masonry) */
+.board{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));grid-auto-rows:8px;column-gap:18px;margin-bottom:90px}
+.pin{align-self:start;animation:pinIn .6s cubic-bezier(.2,.8,.3,1) both;animation-delay:calc(var(--d,0) * 45ms)}
+@keyframes pinIn{from{opacity:0;transform:translateY(22px) scale(.96)}}
+.pimg{position:relative;border-radius:22px;overflow:hidden;isolation:isolate}
+.tall{aspect-ratio:3/4.6}.mid{aspect-ratio:4/5}.short{aspect-ratio:1/1}
+.pimg .hit{position:absolute;inset:0;border:0;background:none;padding:0;border-radius:inherit;z-index:1}
+.scene{position:absolute;inset:0;pointer-events:none}
+.scene.sun::before{content:"";position:absolute;width:72%;aspect-ratio:1;border-radius:50%;left:14%;top:9%;background:var(--c);opacity:.3}
+.scene.arch::before{content:"";position:absolute;left:13%;right:13%;top:7%;bottom:0;border-radius:999px 999px 0 0;background:var(--c);opacity:.2}
+.scene.stripe{background:repeating-linear-gradient(90deg,transparent 0 18px,color-mix(in srgb,var(--c) 13%,transparent) 18px 36px)}
+.scene.rail::before{content:"";position:absolute;left:10%;right:10%;top:8%;height:3px;border-radius:3px;background:var(--c);opacity:.45}
+.fig{position:absolute;left:50%;bottom:-1%;height:88%;transform:translateX(-50%);pointer-events:none}
+.fig svg{height:100%;width:auto;display:block;transform-origin:50% 3%;transition:transform .6s cubic-bezier(.3,1.5,.5,1)}
+.pin:hover .fig svg{transform:rotate(-4deg)}
+.pimg::after{content:"";position:absolute;inset:0;background:rgba(20,6,14,.26);opacity:0;transition:opacity .2s;pointer-events:none;z-index:2}
+.pin:hover .pimg::after,.pin:focus-within .pimg::after{opacity:1}
+.save{position:absolute;top:10px;right:10px;z-index:3;border:0;border-radius:999px;padding:10px 17px;background:var(--berry);color:var(--on-berry);font-weight:600;font-size:15px;opacity:0;transform:translateY(-6px);transition:opacity .2s,transform .2s}
+.save[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.pin:hover .save,.pin:focus-within .save,.save[aria-pressed="true"]{opacity:1;transform:none}
+.pbar{position:absolute;left:10px;right:10px;bottom:10px;z-index:3;display:flex;justify-content:space-between;align-items:center;gap:8px;pointer-events:none}
+.pbar>*{pointer-events:auto}
+.pprice{background:var(--surface);color:var(--ink);border-radius:999px;padding:5px 12px;font-size:14px;font-weight:600;box-shadow:0 4px 14px -6px rgba(0,0,0,.35)}
+.pprice s{font-weight:400;color:var(--muted);margin-left:5px}
+.pbag{width:40px;height:40px;border-radius:50%;border:0;background:var(--surface);color:var(--ink);display:grid;place-items:center;opacity:0;transition:opacity .2s}
+.pin:hover .pbag,.pin:focus-within .pbag{opacity:1}
+.pbag svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7}
+.pmeta{padding:10px 6px 0}
+.pmeta h3{font-size:19px;font-weight:600}
+.sub{display:flex;align-items:center;flex-wrap:wrap;gap:4px 8px;margin-top:6px;font-size:13.5px;color:var(--muted)}
+.faces{display:flex}
+.faces i{width:22px;height:22px;border-radius:50%;border:2px solid var(--paper);margin-left:-7px;font-style:normal;font-size:10.5px;font-weight:600;display:grid;place-items:center;color:#26121C}
+.faces i:first-child{margin-left:0}
+.flag{font-weight:600;color:var(--berry)}
+.flag.soft{color:var(--jade)}
+/* inspiration pins */
+.xpin{display:block;width:100%;border:0;padding:0;text-align:left;border-radius:22px;overflow:hidden;position:relative;color:inherit}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;margin:0}
+.swatch{aspect-ratio:4/5.4}
+.swatch svg{position:absolute;inset:0;width:100%;height:100%;transition:transform 1.2s ease}
+.swatch:hover svg{transform:scale(1.12) rotate(2deg)}
+.lens{position:absolute;top:14px;left:14px;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.88);display:grid;place-items:center;color:#26121C}
+.lens svg{position:static;width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8}
+.swatch .cap{position:absolute;left:0;right:0;bottom:0;padding:50px 16px 16px;background:linear-gradient(transparent,rgba(20,6,14,.78));color:#fff}
+.swatch .cap h3{font-size:24px;font-style:italic;margin:4px 0 2px}
+.swatch .cap small{font-size:14px;opacity:.9}
+.note{background:#FFF0C2;color:#26121C;padding:30px 20px 20px;border-radius:6px 6px 22px 6px;transform:rotate(-1.4deg);box-shadow:var(--shadow);overflow:visible;margin-top:8px}
+.note .tape{position:absolute;top:-10px;left:50%;width:84px;height:22px;transform:translateX(-50%) rotate(3deg);background:rgba(233,162,59,.45)}
+.note h3{font-size:25px;font-style:italic;margin:6px 0 10px}
+.note ul{margin:0 0 14px;padding:0;list-style:none}
+.note li{padding:6px 0;border-bottom:1px dashed rgba(38,18,28,.25);font-size:15.5px}
+.note li::before{content:"✦ ";color:#8A1E4C}
+.note .go{border:0;background:none;padding:0;font-weight:600;color:#8A1E4C;text-decoration:underline;text-underline-offset:3px}
+.palette{background:var(--surface);border:1px solid var(--line)}
+.bands{display:flex;height:150px}
+.bands span{flex:1;transition:flex .35s ease}
+.palette:hover .bands span:first-child{flex:2.4}
+.palette .pl{display:block;padding:14px 16px 16px}
+.palette h3{font-size:22px;margin:4px 0 6px}
+.palette .hex{font-size:13px;color:var(--muted);margin:0;font-variant-numeric:tabular-nums}
+.quote{background:var(--ink);color:var(--paper);padding:30px 22px;cursor:default}
+.quote p:not(.eyebrow){font-family:var(--display);font-style:italic;font-size:30px;line-height:1.1;margin:10px 0 14px}
+.quote small{opacity:.7}
+@media (hover:none){
+  .save{opacity:1;transform:none;padding:7px 13px;font-size:14px}
+  .pbag{opacity:1}
+  .pimg::after{display:none}
+}
 
 /* promise + reviews */
 .promise{display:grid;grid-template-columns:1.2fr 1fr;gap:50px;align-items:center;background:var(--blush);border-radius:32px;padding:56px;margin-bottom:90px}
@@ -225,7 +279,6 @@ dialog::backdrop{background:rgba(20,6,14,.5)}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 
 @media (max-width:980px){
-  .grid{grid-template-columns:repeat(3,1fr)}
   .moods{grid-template-columns:repeat(2,1fr)}
   .promise{grid-template-columns:1fr;padding:38px}
   .reviews{grid-template-columns:1fr}
@@ -236,8 +289,11 @@ dialog::backdrop{background:rgba(20,6,14,.5)}
   .hero{grid-template-columns:1fr;padding-top:30px}
   .stage{order:-1}
   .tag{right:0}
-  .grid{grid-template-columns:repeat(2,1fr);gap:22px 12px}
-  .info h3{font-size:18px}
+  .board{grid-template-columns:repeat(2,1fr);column-gap:12px}
+  .pmeta h3{font-size:17px}
+  .pimg,.xpin{border-radius:18px}
+  .quote p:not(.eyebrow){font-size:24px}
+  .note h3,.swatch .cap h3{font-size:21px}
   .sale{padding:26px 22px}
   .clock div{min-width:56px}
   .qv{grid-template-columns:1fr}
@@ -332,7 +388,7 @@ dialog::backdrop{background:rgba(20,6,14,.5)}
   <section class="wrap" id="shop">
     <div class="shead"><div><h2>The collection</h2><p id="resultNote">Fresh drops every Friday.</p></div></div>
     <div class="toolbar" id="toolbar"></div>
-    <div class="grid" id="grid"></div>
+    <div class="board" id="grid"></div>
   </section>
 
   <section class="wrap promise">
@@ -493,28 +549,75 @@ function renderToolbar(){
    `<label class="sr" for="sort">Sort</label><select id="sort"><option value="featured">Featured</option><option value="low">Price, low to high</option><option value="high">Price, high to low</option><option value="discount">Biggest savings</option></select>`;
   $("#sort").value=state.sort;
 }
-function card(p){
-  const badge=p.stock<=3?`<span class="badge low">Only ${p.stock} left</span>`:p.tag?`<span class="badge">${p.tag}</span>`:"";
+/* pinboard */
+const SHAPES=["tall","mid","short","mid","tall","short"];
+const SCENES=["sun","arch","stripe","rail"];
+const FACES=[["A","#F9D9A6"],["M","#CFE6DC"],["F","#F6C3B4"],["D","#DCCDEE"],["L","#F8DCE2"],["R","#E9C79B"]];
+const PRINTS={floral:"Hand-drawn florals",polka:"Classic polka",stripe:"Candy stripes",check:"Handloom checks",leaf:"Scattered leaves",zigzag:"Ikat waves"};
+const STYLE={Brunch:["Tan kolhapuris","A woven straw tote","Oversized sunnies"],Office:["Block heels","A structured tote","Tiny gold studs"],Festive:["Oxidised jhumkas","Bangles stacked high","Embroidered juttis"],"Date night":["Strappy heels","A tiny clutch","One bold lip"]};
+const saves=p=>`${p.sold*9+(wish.has(p.id)?1:0)} saves`;
+const BAG=`<svg viewBox="0 0 24 24"><path d="M5 8h14l-1.2 12H6.2z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>`;
+const wrapPin=(d,inner,label="")=>`<article class="pin" style="--d:${d}"${label?` aria-label="${label}"`:""}><div class="pin-in">${inner}</div></article>`;
+
+function pin(p,d){
   const w=wish.has(p.id);
-  return `<article class="card">
-    <button class="art" data-qv="${p.id}" style="background:${tint(p.base)}" aria-label="View ${p.name}">${dress(p)}</button>
-    ${badge}
-    <button class="heart" data-wish="${p.id}" aria-pressed="${w}" aria-label="${w?"Remove from":"Add to"} wishlist"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.5-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.5-9 9-9 9z"/></svg></button>
-    <div class="info">
-      <h3>${p.name}</h3><p class="cat">${p.cat.replace(/s$/,"")}</p>
-      <div class="price"><strong>${fmt(p.price)}</strong><s>${fmt(p.mrp)}</s><em>${off(p)}% off</em></div>
-      <div class="sizes">${p.sizes.map(s=>`<span>${s}</span>`).join("")}</div>
-      <button class="btn small" data-qv="${p.id}">Add to bag</button>
-    </div></article>`;
+  const flag=p.stock<=3?`<span class="flag">Only ${p.stock} left</span>`:p.tag?`<span class="flag soft">${p.tag}</span>`:"";
+  const faces=[0,1,2].map(k=>{const [t,c]=FACES[(p.id+k)%FACES.length];return `<i style="background:${c}">${t}</i>`}).join("");
+  return wrapPin(d,`
+    <div class="pimg ${SHAPES[p.id%SHAPES.length]}" style="background:${tint(p.base,22)};--c:${p.base}">
+      <span class="scene ${SCENES[p.id%SCENES.length]}"></span>
+      <div class="fig">${dress(p)}</div>
+      <button class="hit" data-qv="${p.id}" aria-label="View ${p.name}"></button>
+      <button class="save" data-wish="${p.id}" aria-pressed="${w}">${w?"Saved":"Save"}</button>
+      <div class="pbar"><span class="pprice">${fmt(p.price)}<s>${fmt(p.mrp)}</s></span><button class="pbag" data-qv="${p.id}" aria-label="Add ${p.name} to bag">${BAG}</button></div>
+    </div>
+    <div class="pmeta"><h3>${p.name}</h3>
+      <div class="sub"><span class="faces" aria-hidden="true">${faces}</span><span data-saves="${p.id}">${saves(p)}</span>${flag}</div>
+    </div>`,p.name);
 }
+function extraPin(kind,p,d){
+  if(kind==="swatch"){
+    const id="z"+(++UID);
+    return wrapPin(d,`<button class="xpin swatch" data-qv="${p.id}" aria-label="Fabric close-up of ${p.name}">
+      <svg viewBox="0 0 200 270" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs>${pattern(id,p.print,p.base,p.accent)}</defs><g transform="scale(2.4)"><rect width="90" height="120" fill="url(#${id})"/></g></svg>
+      <span class="lens"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></span>
+      <span class="cap"><p class="eyebrow">Up close</p><h3>${PRINTS[p.print]}</h3><small>on ${p.name} →</small></span>
+    </button>`);
+  }
+  if(kind==="note"){
+    return wrapPin(d,`<div class="xpin note"><span class="tape"></span>
+      <p class="eyebrow">How to wear it</p><h3>${p.name}</h3>
+      <ul>${STYLE[p.mood].map(s=>`<li>${s}</li>`).join("")}</ul>
+      <button class="go" data-qv="${p.id}">Shop the look →</button></div>`);
+  }
+  const cols=[p.base,p.accent,p.pant||`color-mix(in srgb, ${p.base} 45%, #fff)`];
+  return wrapPin(d,`<button class="xpin palette" data-qv="${p.id}" aria-label="Colour palette of ${p.name}">
+    <span class="bands">${cols.map(c=>`<span style="background:${c}"></span>`).join("")}</span>
+    <span class="pl"><p class="eyebrow" style="color:var(--muted)">Palette</p><h3>${p.name}</h3><p class="hex">${p.base.toUpperCase()} · ${p.accent.toUpperCase()}</p></span>
+  </button>`);
+}
+const quotePin=d=>wrapPin(d,`<div class="xpin quote"><p class="eyebrow">Pinned by us</p><p>Wear the print. Skip the plan.</p><small>The JoDesigns way</small></div>`);
+
+/* masonry: each pin spans as many 8px rows as its height needs */
+const ROW=8;
+const boardRO=new ResizeObserver(es=>{const gap=parseFloat(getComputedStyle($("#grid")).columnGap)||18;es.forEach(e=>{const el=e.target,host=el.closest(".pin")||el;host.style.gridRowEnd="span "+Math.ceil((el.offsetHeight+gap)/ROW)})});
+
 function renderGrid(){
   let list=PRODUCTS.filter(p=>(state.cat==="All"||p.cat===state.cat)&&(!state.mood||p.mood===state.mood)&&(!state.wishOnly||wish.has(p.id)));
   if(state.q){const q=state.q.toLowerCase();list=list.filter(p=>(p.name+" "+p.cat+" "+p.print+" "+p.desc).toLowerCase().includes(q))}
   if(state.sort==="low")list.sort((a,b)=>a.price-b.price);
   if(state.sort==="high")list.sort((a,b)=>b.price-a.price);
   if(state.sort==="discount")list.sort((a,b)=>off(b)-off(a));
-  $("#grid").innerHTML=list.length?list.map(card).join(""):`<p class="empty">${state.wishOnly?"Your wishlist is empty. Tap the heart on any piece to save it here.":"Nothing matches that yet. Try another category or clear the search."}</p>`;
-  $("#resultNote").textContent=state.wishOnly?`${list.length} saved ${list.length===1?"piece":"pieces"}`:`${list.length} ${list.length===1?"piece":"pieces"}, fresh drops every Friday.`;
+  const EXTRA=["note","swatch","palette"],out=[];let d=0,x=0;
+  list.forEach((p,i)=>{
+    out.push(pin(p,d++));
+    if(i===1&&list.length>=4&&!state.wishOnly)out.push(quotePin(d++));
+    if(i%3===2)out.push(extraPin(EXTRA[x++%EXTRA.length],p,d++));
+  });
+  boardRO.disconnect();
+  $("#grid").innerHTML=list.length?out.join(""):`<p class="empty">${state.wishOnly?"Nothing saved yet. Tap Save on any pin to keep it here.":"Nothing matches that yet. Try another category or clear the search."}</p>`;
+  $("#grid").querySelectorAll(".pin-in,.empty").forEach(el=>boardRO.observe(el));
+  $("#resultNote").textContent=state.wishOnly?`${list.length} saved ${list.length===1?"piece":"pieces"}`:`${list.length} ${list.length===1?"piece":"pieces"} pinned, fresh drops every Friday.`;
 }
 function refreshShop(){renderToolbar();renderGrid()}
 
@@ -591,7 +694,8 @@ document.addEventListener("click",e=>{
   if(d.wish){
     const id=+d.wish;wish.has(id)?wish.delete(id):wish.add(id);save("jod-wish",[...wish]);counts();
     const on=wish.has(id);toast(on?"Saved to your wishlist":"Removed from your wishlist");
-    document.querySelectorAll(`[data-wish="${id}"]`).forEach(b=>{b.setAttribute("aria-pressed",on);if(b.classList.contains("heart")){b.classList.remove("pop");void b.offsetWidth;b.classList.add("pop")}else b.textContent=on?"Saved":"Save"});
+    document.querySelectorAll(`[data-wish="${id}"]`).forEach(b=>{b.setAttribute("aria-pressed",on);b.textContent=on?"Saved":"Save";b.classList.remove("pop");void b.offsetWidth;b.classList.add("pop")});
+    document.querySelectorAll(`[data-saves="${id}"]`).forEach(s=>s.textContent=saves(byId(id)));
     if(state.wishOnly)renderGrid();return;
   }
   if(d.size){qvSize=d.size;t.parentNode.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b===t));$("#pickmsg").textContent="";return}
